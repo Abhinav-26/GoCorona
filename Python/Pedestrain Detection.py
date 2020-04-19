@@ -32,6 +32,8 @@ while cap.isOpened():
         # pedestrians inside it
         (Cor, _) = hog.detectMultiScale(image, winStride=(4, 4),padding=(4, 4),scale=1.05)
         l = len(Cor)'''
+        ts = time.asctime(time.localtime(time.time()))           #timestamp
+        cv2.putText(image, str(ts), (2,330), cv2.FONT_ITALIC, 1, (255,255,255), 2)  #adding timestamp to image
         Cor= face_model.detectMultiScale(image)
         l = len(Cor)
         #text1= 'TOTAL: '+ str(l)
@@ -83,6 +85,7 @@ while cap.isOpened():
                             #print(j)
                             #print(i)
                             if distance<rad:
+                                start = time.perf_counter();                               #timer start
                                 print("CLOSE! CLOSE!")
                                 faceCapture("RINKUIIIIIvjhvahbckAMHBKHBKBTCIKFHDBKSNlvJXHVKX"+t)
                                 x=int(t)
@@ -93,6 +96,13 @@ while cap.isOpened():
                                 t=str(x)
                                 image= cv2.circle(image, (s1[j],s2[j]), radius, (255, 0, 0),2)
                                 image= cv2.circle(image, (s1[i],s2[i]), radius, (255, 0, 0),2)
+                                
+                                stop=time.perf_counter();            #timer stop
+                                #print(stop)
+                                if(stop-start)>120:
+                                    alert()                           #checking if more than 2 mins=120 secs, if yes call alert function.
+            #use CCTV_capture.jpg for showing the alert, and continue app using alert()
+            
 #photo[int(((face_cor[i][1])+((face_cor[i][1]) + face_cor[i][3]))/2):int(((face_cor[i][1])+((face_cor[i][1]) + face_cor[i][3]))/2)+5]=[255,0,0]
         # Showing the output Image
         cv2.imshow("Image", image)
